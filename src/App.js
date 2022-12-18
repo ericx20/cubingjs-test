@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { useState } from "react"
+
 import { random333State } from "cubing/search"
 import { experimentalSolve3x3x3IgnoringCenters } from "cubing/search";
 import { KState } from "cubing/kpuzzle"
@@ -20,9 +22,13 @@ async function generateEOSolvedScramble() {
   return solution.invert()
 }
 
-console.log(generateEOSolvedScramble().toString())
-
 function App() {
+  const [scramble, setScramble] = useState("")
+  const generateScramble = async () => {
+    const scram = (await generateEOSolvedScramble()).toString()
+    setScramble(scram)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -30,6 +36,8 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <p>{scramble}</p>
+        <button onClick={generateScramble}>Get scramble!</button>
         <a
           className="App-link"
           href="https://reactjs.org"
